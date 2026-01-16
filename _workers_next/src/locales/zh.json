@@ -211,6 +211,17 @@
                 "title": "自定义页脚",
                 "placeholder": "例如：联系客服：xxx@example.com",
                 "hint": "显示在网站底部，留空使用默认页脚。"
+            },
+            "themeColor": {
+                "title": "主题颜色",
+                "hint": "选择商店的主色调",
+                "purple": "紫色（默认）",
+                "blue": "蓝色",
+                "cyan": "青色",
+                "green": "绿色",
+                "orange": "橙色",
+                "pink": "粉色",
+                "red": "红色"
             }
         },
         "export": {

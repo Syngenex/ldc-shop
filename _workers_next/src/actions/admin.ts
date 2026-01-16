@@ -324,6 +324,20 @@ export async function saveShopFooter(footer: string) {
     revalidatePath('/')
 }
 
+const VALID_THEME_COLORS = ['purple', 'blue', 'cyan', 'green', 'orange', 'pink', 'red']
+
+export async function saveThemeColor(color: string) {
+    await checkAdmin()
+    
+    if (!VALID_THEME_COLORS.includes(color)) {
+        throw new Error("Invalid theme color")
+    }
+    
+    await setSetting('theme_color', color)
+    revalidatePath('/admin/settings')
+    revalidatePath('/')
+}
+
 async function ensureCategoriesTable() {
     await db.run(sql`
         CREATE TABLE IF NOT EXISTS categories (

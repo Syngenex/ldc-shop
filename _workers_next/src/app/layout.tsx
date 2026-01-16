@@ -52,15 +52,22 @@ export async function generateMetadata(): Promise<Metadata> {
   return metadata;
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  let themeColor: string | null = null;
+  try {
+    themeColor = await getSetting("theme_color");
+  } catch {
+    themeColor = null;
+  }
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
-        <Providers>
+        <Providers themeColor={themeColor}>
           <div className="relative flex min-h-screen flex-col">
             <SiteHeader />
             <div className="flex-1">{children}</div>

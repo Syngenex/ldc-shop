@@ -2,7 +2,7 @@ import { getDashboardStats, getSetting, getVisitorCount } from "@/lib/db/queries
 import { AdminSettingsContent } from "@/components/admin/settings-content"
 
 export default async function AdminSettingsPage() {
-    const [stats, shopName, shopDescription, shopLogo, shopFooter, visitorCount, lowStockThreshold, checkinReward, checkinEnabled, noIndexEnabled] = await Promise.all([
+    const [stats, shopName, shopDescription, shopLogo, shopFooter, themeColor, visitorCount, lowStockThreshold, checkinReward, checkinEnabled, noIndexEnabled] = await Promise.all([
         getDashboardStats(),
         (async () => {
             try {
@@ -28,6 +28,13 @@ export default async function AdminSettingsPage() {
         (async () => {
             try {
                 return await getSetting('shop_footer')
+            } catch {
+                return null
+            }
+        })(),
+        (async () => {
+            try {
+                return await getSetting('theme_color')
             } catch {
                 return null
             }
@@ -80,6 +87,7 @@ export default async function AdminSettingsPage() {
             shopDescription={shopDescription}
             shopLogo={shopLogo}
             shopFooter={shopFooter}
+            themeColor={themeColor}
             visitorCount={visitorCount}
             lowStockThreshold={lowStockThreshold}
             checkinReward={checkinReward}

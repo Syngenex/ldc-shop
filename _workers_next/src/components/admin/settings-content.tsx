@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { TrendingUp, ShoppingCart, CreditCard, Package, Users } from "lucide-react"
-import { saveShopName, saveShopDescription, saveShopLogo, saveShopFooter, saveLowStockThreshold, saveCheckinReward, saveCheckinEnabled, saveNoIndex } from "@/actions/admin"
+import { saveShopName, saveShopDescription, saveShopLogo, saveShopFooter, saveThemeColor, saveLowStockThreshold, saveCheckinReward, saveCheckinEnabled, saveNoIndex } from "@/actions/admin"
 import { toast } from "sonner"
 
 interface Stats {
@@ -24,6 +24,7 @@ interface AdminSettingsContentProps {
     shopDescription: string | null
     shopLogo: string | null
     shopFooter: string | null
+    themeColor: string | null
     visitorCount: number
     lowStockThreshold: number
     checkinReward: number
@@ -31,7 +32,17 @@ interface AdminSettingsContentProps {
     noIndexEnabled: boolean
 }
 
-export function AdminSettingsContent({ stats, shopName, shopDescription, shopLogo, shopFooter, visitorCount, lowStockThreshold, checkinReward, checkinEnabled, noIndexEnabled }: AdminSettingsContentProps) {
+const THEME_COLORS = [
+    { value: 'purple', hue: 270 },
+    { value: 'blue', hue: 240 },
+    { value: 'cyan', hue: 200 },
+    { value: 'green', hue: 150 },
+    { value: 'orange', hue: 45 },
+    { value: 'pink', hue: 330 },
+    { value: 'red', hue: 25 },
+]
+
+export function AdminSettingsContent({ stats, shopName, shopDescription, shopLogo, shopFooter, themeColor, visitorCount, lowStockThreshold, checkinReward, checkinEnabled, noIndexEnabled }: AdminSettingsContentProps) {
     const { t } = useI18n()
 
     // State
@@ -43,6 +54,8 @@ export function AdminSettingsContent({ stats, shopName, shopDescription, shopLog
     const [savingShopLogo, setSavingShopLogo] = useState(false)
     const [shopFooterValue, setShopFooterValue] = useState(shopFooter || '')
     const [savingShopFooter, setSavingShopFooter] = useState(false)
+    const [selectedTheme, setSelectedTheme] = useState(themeColor || 'purple')
+    const [savingTheme, setSavingTheme] = useState(false)
     const [thresholdValue, setThresholdValue] = useState(String(lowStockThreshold || 5))
     const [savingThreshold, setSavingThreshold] = useState(false)
     const [rewardValue, setRewardValue] = useState(String(checkinReward || 10))
@@ -152,6 +165,21 @@ export function AdminSettingsContent({ stats, shopName, shopDescription, shopLog
             toast.error(e.message)
         } finally {
             setSavingShopFooter(false)
+        }
+    }
+
+    const handleSaveTheme = async (color: string) => {
+        setSavingTheme(true)
+        setSelectedTheme(color)
+        try {
+            await saveThemeColor(color)
+            toast.success(t('common.success'))
+            // Refresh the page to apply theme
+            window.location.reload()
+        } catch (e: any) {
+            toast.error(e.message)
+        } finally {
+            setSavingTheme(false)
         }
     }
 
@@ -292,6 +320,38 @@ export function AdminSettingsContent({ stats, shopName, shopDescription, shopLog
                         </div>
                         <p className="text-xs text-muted-foreground">{t('admin.settings.footer.hint')}</p>
                     </div>
+                </CardContent>
+            </Card>
+
+            {/* Theme Color */}
+            <Card>
+                <CardHeader>
+                    <CardTitle>{t('admin.settings.themeColor.title')}</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                    <p className="text-sm text-muted-foreground">{t('admin.settings.themeColor.hint')}</p>
+                    <div className="flex flex-wrap gap-3">
+                        {THEME_COLORS.map(({ value, hue }) => (
+                            <button
+                                key={value}
+                                onClick={() => handleSaveTheme(value)}
+                                disabled={savingTheme}
+                                className={`
+                                    w-12 h-12 rounded-full border-2 transition-all
+                                    ${selectedTheme === value ? 'ring-2 ring-offset-2 ring-foreground scale-110' : 'hover:scale-105'}
+                                    ${savingTheme ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
+                                `}
+                                style={{
+                                    backgroundColor: `oklch(0.55 0.2 ${hue})`,
+                                    borderColor: selectedTheme === value ? `oklch(0.4 0.2 ${hue})` : 'transparent'
+                                }}
+                                title={t(`admin.settings.themeColor.${value}`)}
+                            />
+                        ))}
+                    </div>
+                    <p className="text-xs text-muted-foreground">
+                        {t(`admin.settings.themeColor.${selectedTheme}`)}
+                    </p>
                 </CardContent>
             </Card>
 

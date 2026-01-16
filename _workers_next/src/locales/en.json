@@ -211,6 +211,17 @@
                 "title": "Custom Footer",
                 "placeholder": "e.g. Contact: xxx@example.com",
                 "hint": "Displayed at the bottom of the site. Leave empty to use default."
+            },
+            "themeColor": {
+                "title": "Theme Color",
+                "hint": "Choose the primary color for your shop",
+                "purple": "Purple (Default)",
+                "blue": "Blue",
+                "cyan": "Cyan",
+                "green": "Green",
+                "orange": "Orange",
+                "pink": "Pink",
+                "red": "Red"
             }
         },
         "export": {
