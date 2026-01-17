@@ -34,7 +34,6 @@ export function NotificationsContent({ settings }: NotificationsContentProps) {
     const [resendApiKey, setResendApiKey] = useState(settings.resendApiKey || '')
     const [resendFromEmail, setResendFromEmail] = useState(settings.resendFromEmail || '')
     const [resendFromName, setResendFromName] = useState(settings.resendFromName || '')
-    const [resendEnabled, setResendEnabled] = useState(settings.resendEnabled || false)
     const [isTestingEmail, setIsTestingEmail] = useState(false)
     const [testEmail, setTestEmail] = useState('')
 
@@ -201,12 +200,12 @@ export function NotificationsContent({ settings }: NotificationsContentProps) {
                         <div className="flex items-center gap-3">
                             <input
                                 type="checkbox"
+                                name="resendEnabled"
+                                value="true"
                                 id="resendEnabledCheckbox"
-                                checked={resendEnabled}
-                                onChange={e => setResendEnabled(e.target.checked)}
+                                defaultChecked={settings.resendEnabled || false}
                                 className="h-4 w-4 rounded border-gray-300"
                             />
-                            <input type="hidden" name="resendEnabled" value={resendEnabled ? 'true' : 'false'} />
                             <Label htmlFor="resendEnabledCheckbox">{t('admin.settings.email.enabled')}</Label>
                         </div>
 
