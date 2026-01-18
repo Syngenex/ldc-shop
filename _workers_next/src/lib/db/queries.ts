@@ -4,6 +4,7 @@ import { eq, sql, desc, and, asc, gte, or, inArray } from "drizzle-orm";
 
 // Database initialization state
 let dbInitialized = false;
+const CURRENT_SCHEMA_VERSION = 1;
 
 async function safeAddColumn(table: string, column: string, definition: string) {
     try {
@@ -49,6 +50,19 @@ async function ensureDatabaseInitialized() {
     if (dbInitialized) return;
 
     try {
+        // OPTIMIZATION: Check schema version first to avoid heavy DDL checks
+        try {
+            // We access the settings table directly to avoid recursive loop if getSetting calls ensureDatabaseInitialized
+            // But getSetting calls db.select which doesn't recurse.
+            const version = await getSetting('schema_version');
+            if (version === String(CURRENT_SCHEMA_VERSION)) {
+                dbInitialized = true;
+                return;
+            }
+        } catch (e) {
+            // Settings table likely doesn't exist, proceed to full checks
+        }
+
         // Quick check if products table exists
         await db.run(sql`SELECT 1 FROM products LIMIT 1`);
 
@@ -58,6 +72,9 @@ async function ensureDatabaseInitialized() {
         await migrateTimestampColumnsToMs();
         await ensureIndexes();
         await backfillProductAggregates();
+
+        // Update schema version
+        await setSetting('schema_version', String(CURRENT_SCHEMA_VERSION));
 
         dbInitialized = true;
         return;
@@ -188,6 +205,15 @@ async function ensureDatabaseInitialized() {
     await migrateTimestampColumnsToMs();
     await ensureIndexes();
     await backfillProductAggregates();
+
+    // Set initial schema version
+    try {
+        await setSetting('schema_version', String(CURRENT_SCHEMA_VERSION));
+    } catch {
+        // If setSetting failed (e.g. settings table issue), try to ensure it exists and retry
+        await ensureSettingsTable();
+        await setSetting('schema_version', String(CURRENT_SCHEMA_VERSION));
+    }
 
     dbInitialized = true;
     console.log("Database initialized successfully");
