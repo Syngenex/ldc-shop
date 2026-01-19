@@ -50,8 +50,8 @@ const THEME_COLORS = [
     { value: 'cyan', hue: 200 },
     { value: 'green', hue: 150 },
     { value: 'orange', hue: 45 },
-    { value: 'pink', hue: 330 },
     { value: 'red', hue: 25 },
+    { value: 'black', hue: 0, chroma: 0, preview: 'oklch(0.18 0 0)' },
 ]
 
 export function AdminSettingsContent({ stats, shopName, shopDescription, shopLogo, shopFooter, themeColor, visitorCount, lowStockThreshold, checkinReward, checkinEnabled, noIndexEnabled, registryOptIn, registryEnabled }: AdminSettingsContentProps) {
@@ -78,6 +78,9 @@ export function AdminSettingsContent({ stats, shopName, shopDescription, shopLog
     const [savingNoIndex, setSavingNoIndex] = useState(false)
     const [checkingUpdate, setCheckingUpdate] = useState(false)
     const [updateInfo, setUpdateInfo] = useState<UpdateInfo | null>(null)
+    const themeOptions = selectedTheme === 'pink'
+        ? [...THEME_COLORS, { value: 'pink', hue: 330 }]
+        : THEME_COLORS
     const [submittingRegistry, setSubmittingRegistry] = useState(false)
     const [registryJoined, setRegistryJoined] = useState(registryOptIn)
 
@@ -437,7 +440,14 @@ export function AdminSettingsContent({ stats, shopName, shopDescription, shopLog
                 <CardContent className="space-y-4">
                     <p className="text-sm text-muted-foreground">{t('admin.settings.themeColor.hint')}</p>
                     <div className="flex flex-wrap gap-3">
-                        {THEME_COLORS.map(({ value, hue }) => (
+                        {themeOptions.map(({ value, hue, chroma, preview }) => {
+                            const saturation = typeof chroma === 'number' ? chroma : 1
+                            const bgColor = preview || `oklch(0.55 ${0.2 * saturation} ${hue})`
+                            const borderColor = selectedTheme === value
+                                ? (preview ? 'oklch(0.3 0 0)' : `oklch(0.4 ${0.2 * saturation} ${hue})`)
+                                : 'transparent'
+
+                            return (
                             <button
                                 key={value}
                                 onClick={() => handleSaveTheme(value)}
@@ -448,12 +458,13 @@ export function AdminSettingsContent({ stats, shopName, shopDescription, shopLog
                                     ${savingTheme ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'}
                                 `}
                                 style={{
-                                    backgroundColor: `oklch(0.55 0.2 ${hue})`,
-                                    borderColor: selectedTheme === value ? `oklch(0.4 0.2 ${hue})` : 'transparent'
+                                    backgroundColor: bgColor,
+                                    borderColor
                                 }}
                                 title={t(`admin.settings.themeColor.${value}`)}
                             />
-                        ))}
+                            )
+                        })}
                     </div>
                     <p className="text-xs text-muted-foreground">
                         {t(`admin.settings.themeColor.${selectedTheme}`)}

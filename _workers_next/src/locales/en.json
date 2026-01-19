@@ -239,7 +239,8 @@
                 "green": "Green",
                 "orange": "Orange",
                 "pink": "Pink",
-                "red": "Red"
+                "red": "Red",
+                "black": "Black"
             },
             "notifications": {
                 "title": "Notification Settings",

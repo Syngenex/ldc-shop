@@ -177,7 +177,7 @@ export function SearchContent(props: {
                     </Badge>
                   </div>
                   <Link href={`/buy/${product.id}`} className="w-full">
-                    <Button size="sm" className="w-full bg-foreground text-background hover:bg-foreground/90 whitespace-nowrap shadow-md hover:shadow-lg transition-all">
+                    <Button size="sm" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 whitespace-nowrap shadow-md hover:shadow-lg transition-all">
                       {t('common.viewDetails')}
                     </Button>
                   </Link>
@@ -212,4 +212,3 @@ export function SearchContent(props: {
     </main>
   )
 }
-

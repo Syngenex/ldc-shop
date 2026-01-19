@@ -53,6 +53,7 @@
 :root {
   --radius: 0.75rem;
   --theme-hue: 270;
+  --theme-chroma: 1;
 
   /* Base Colors - Clean & Minimal */
   --background: oklch(0.99 0 0);
@@ -67,31 +68,31 @@
   --popover-foreground: oklch(0.15 0.02 270);
 
   /* Primary - Tech Blue-Purple */
-  --primary: oklch(0.45 0.2 var(--theme-hue, 270));
+  --primary: oklch(0.45 calc(0.2 * var(--theme-chroma, 1)) var(--theme-hue, 270));
   --primary-foreground: oklch(0.99 0 0);
 
-  /* Secondary - Subtle Gray */
-  --secondary: oklch(0.96 0.01 270);
-  --secondary-foreground: oklch(0.25 0.02 270);
+  /* Secondary - Themed tint */
+  --secondary: oklch(0.96 calc(0.02 * var(--theme-chroma, 1)) var(--theme-hue, 270));
+  --secondary-foreground: oklch(0.25 calc(0.05 * var(--theme-chroma, 1)) var(--theme-hue, 270));
 
   /* Muted */
-  --muted: oklch(0.96 0.01 270);
-  --muted-foreground: oklch(0.5 0.02 270);
+  --muted: oklch(0.96 calc(0.02 * var(--theme-chroma, 1)) var(--theme-hue, 270));
+  --muted-foreground: oklch(0.5 calc(0.05 * var(--theme-chroma, 1)) var(--theme-hue, 270));
 
-  /* Accent - Cyan glow */
-  --accent: oklch(0.94 0.03 200);
-  --accent-foreground: oklch(0.25 0.1 200);
+  /* Accent - Themed */
+  --accent: oklch(0.94 calc(0.05 * var(--theme-chroma, 1)) var(--theme-hue, 270));
+  --accent-foreground: oklch(0.25 calc(0.12 * var(--theme-chroma, 1)) var(--theme-hue, 270));
 
   /* Destructive */
   --destructive: oklch(0.6 0.22 25);
 
   /* Borders - Subtle */
-  --border: oklch(0.92 0.01 270);
-  --input: oklch(0.92 0.01 270);
-  --ring: oklch(0.45 0.2 var(--theme-hue, 270));
+  --border: oklch(0.92 calc(0.02 * var(--theme-chroma, 1)) var(--theme-hue, 270));
+  --input: oklch(0.92 calc(0.02 * var(--theme-chroma, 1)) var(--theme-hue, 270));
+  --ring: oklch(0.45 calc(0.2 * var(--theme-chroma, 1)) var(--theme-hue, 270));
 
   /* Charts - Tech palette */
-  --chart-1: oklch(0.55 0.22 var(--theme-hue, 270));
+  --chart-1: oklch(0.55 calc(0.22 * var(--theme-chroma, 1)) var(--theme-hue, 270));
   --chart-2: oklch(0.65 0.18 200);
   --chart-3: oklch(0.6 0.15 150);
   --chart-4: oklch(0.7 0.2 310);
@@ -100,16 +101,16 @@
   /* Sidebar */
   --sidebar: oklch(0.98 0.01 270);
   --sidebar-foreground: oklch(0.15 0.02 270);
-  --sidebar-primary: oklch(0.45 0.2 var(--theme-hue, 270));
+  --sidebar-primary: oklch(0.45 calc(0.2 * var(--theme-chroma, 1)) var(--theme-hue, 270));
   --sidebar-primary-foreground: oklch(0.99 0 0);
-  --sidebar-accent: oklch(0.94 0.03 200);
-  --sidebar-accent-foreground: oklch(0.25 0.1 200);
+  --sidebar-accent: oklch(0.94 calc(0.05 * var(--theme-chroma, 1)) var(--theme-hue, 270));
+  --sidebar-accent-foreground: oklch(0.25 calc(0.12 * var(--theme-chroma, 1)) var(--theme-hue, 270));
   --sidebar-border: oklch(0.92 0.01 270);
-  --sidebar-ring: oklch(0.45 0.2 var(--theme-hue, 270));
+  --sidebar-ring: oklch(0.45 calc(0.2 * var(--theme-chroma, 1)) var(--theme-hue, 270));
 
   /* Tech Glow Colors */
-  --glow-primary: oklch(0.55 0.25 var(--theme-hue, 270) / 0.3);
-  --glow-accent: oklch(0.7 0.2 200 / 0.3);
+  --glow-primary: oklch(0.55 calc(0.25 * var(--theme-chroma, 1)) var(--theme-hue, 270) / 0.3);
+  --glow-accent: oklch(0.7 calc(0.2 * var(--theme-chroma, 1)) var(--theme-hue, 270) / 0.3);
 }
 
 /* ======================================
@@ -129,31 +130,31 @@
   --popover-foreground: oklch(0.95 0.01 270);
 
   /* Primary - Electric Blue-Purple */
-  --primary: oklch(0.7 0.2 var(--theme-hue, 270));
+  --primary: oklch(0.7 calc(0.2 * var(--theme-chroma, 1)) var(--theme-hue, 270));
   --primary-foreground: oklch(0.12 0.02 270);
 
   /* Secondary */
-  --secondary: oklch(0.22 0.02 270 / 0.8);
-  --secondary-foreground: oklch(0.9 0.01 270);
+  --secondary: oklch(0.22 calc(0.04 * var(--theme-chroma, 1)) var(--theme-hue, 270) / 0.8);
+  --secondary-foreground: oklch(0.9 calc(0.02 * var(--theme-chroma, 1)) var(--theme-hue, 270));
 
   /* Muted */
-  --muted: oklch(0.22 0.02 270 / 0.6);
-  --muted-foreground: oklch(0.65 0.02 270);
+  --muted: oklch(0.22 calc(0.03 * var(--theme-chroma, 1)) var(--theme-hue, 270) / 0.6);
+  --muted-foreground: oklch(0.65 calc(0.04 * var(--theme-chroma, 1)) var(--theme-hue, 270));
 
-  /* Accent - Cyan Glow */
-  --accent: oklch(0.65 0.15 200 / 0.3);
-  --accent-foreground: oklch(0.85 0.1 200);
+  /* Accent - Themed */
+  --accent: oklch(0.65 calc(0.15 * var(--theme-chroma, 1)) var(--theme-hue, 270) / 0.3);
+  --accent-foreground: oklch(0.85 calc(0.1 * var(--theme-chroma, 1)) var(--theme-hue, 270));
 
   /* Destructive */
   --destructive: oklch(0.65 0.2 25);
 
   /* Borders - Glowing edges */
-  --border: oklch(0.4 0.05 270 / 0.3);
-  --input: oklch(0.25 0.02 270 / 0.8);
-  --ring: oklch(0.7 0.2 var(--theme-hue, 270));
+  --border: oklch(0.4 calc(0.06 * var(--theme-chroma, 1)) var(--theme-hue, 270) / 0.3);
+  --input: oklch(0.25 calc(0.04 * var(--theme-chroma, 1)) var(--theme-hue, 270) / 0.8);
+  --ring: oklch(0.7 calc(0.2 * var(--theme-chroma, 1)) var(--theme-hue, 270));
 
   /* Charts */
-  --chart-1: oklch(0.7 0.22 var(--theme-hue, 270));
+  --chart-1: oklch(0.7 calc(0.22 * var(--theme-chroma, 1)) var(--theme-hue, 270));
   --chart-2: oklch(0.7 0.18 200);
   --chart-3: oklch(0.75 0.15 150);
   --chart-4: oklch(0.75 0.2 310);
@@ -162,16 +163,16 @@
   /* Sidebar */
   --sidebar: oklch(0.14 0.02 270 / 0.9);
   --sidebar-foreground: oklch(0.95 0.01 270);
-  --sidebar-primary: oklch(0.7 0.2 var(--theme-hue, 270));
+  --sidebar-primary: oklch(0.7 calc(0.2 * var(--theme-chroma, 1)) var(--theme-hue, 270));
   --sidebar-primary-foreground: oklch(0.12 0.02 270);
-  --sidebar-accent: oklch(0.65 0.15 200 / 0.3);
-  --sidebar-accent-foreground: oklch(0.85 0.1 200);
+  --sidebar-accent: oklch(0.65 calc(0.15 * var(--theme-chroma, 1)) var(--theme-hue, 270) / 0.3);
+  --sidebar-accent-foreground: oklch(0.85 calc(0.1 * var(--theme-chroma, 1)) var(--theme-hue, 270));
   --sidebar-border: oklch(0.4 0.05 270 / 0.3);
-  --sidebar-ring: oklch(0.7 0.2 var(--theme-hue, 270));
+  --sidebar-ring: oklch(0.7 calc(0.2 * var(--theme-chroma, 1)) var(--theme-hue, 270));
 
   /* Tech Glow Colors */
-  --glow-primary: oklch(0.6 0.25 var(--theme-hue, 270) / 0.4);
-  --glow-accent: oklch(0.7 0.2 200 / 0.4);
+  --glow-primary: oklch(0.6 calc(0.25 * var(--theme-chroma, 1)) var(--theme-hue, 270) / 0.4);
+  --glow-accent: oklch(0.7 calc(0.2 * var(--theme-chroma, 1)) var(--theme-hue, 270) / 0.4);
 }
 
 /* ======================================

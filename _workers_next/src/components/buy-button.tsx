@@ -127,7 +127,7 @@ export function BuyButton({ productId, price, productName, disabled, quantity = 
         <>
             <Button
                 size="lg"
-                className="w-full md:w-auto bg-foreground text-background hover:bg-foreground/90 cursor-pointer"
+                className="w-full md:w-auto bg-primary text-primary-foreground hover:bg-primary/90 cursor-pointer"
                 onClick={handleInitialClick}
                 disabled={disabled}
             >
@@ -188,7 +188,7 @@ export function BuyButton({ productId, price, productName, disabled, quantity = 
                         <Button variant="outline" onClick={() => setOpen(false)} disabled={loading}>
                             {t('common.cancel')}
                         </Button>
-                        <Button onClick={handleBuy} disabled={loading} className="bg-foreground text-background hover:bg-foreground/90">
+                        <Button onClick={handleBuy} disabled={loading} className="bg-primary text-primary-foreground hover:bg-primary/90">
                             {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                             {finalPrice === 0 ? t('buy.modal.payWithPoints') : t('buy.modal.proceedPayment')}
                         </Button>

@@ -28,6 +28,7 @@ export function ShopLogo({ name, url, logo }: ShopLogoProps) {
         const origin = getOrigin(url)
         if (origin) {
             list.push(`${origin}/icon.svg`)
+            list.push(`${origin}/favicon`)
             list.push(`${origin}/favicon.ico`)
         }
         return Array.from(new Set(list))

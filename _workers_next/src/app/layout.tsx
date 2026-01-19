@@ -18,8 +18,12 @@ const THEME_HUES: Record<string, number> = {
   cyan: 200,
   green: 150,
   orange: 45,
-  pink: 330,
   red: 25,
+  pink: 330, // legacy
+  black: 0,
+};
+const THEME_CHROMA: Record<string, number> = {
+  black: 0,
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -57,9 +61,9 @@ export async function generateMetadata(): Promise<Metadata> {
       "mobile-web-app-capable": "yes",
     },
     icons: {
-      icon: "/favicon.ico",
-      shortcut: "/favicon.ico",
-      apple: "/favicon.ico",
+      icon: "/favicon",
+      shortcut: "/favicon",
+      apple: "/favicon",
     },
   };
 
@@ -78,12 +82,13 @@ export default async function RootLayout({
     themeColor = null;
   }
   const themeHue = THEME_HUES[themeColor || "purple"] || 270;
+  const themeChroma = THEME_CHROMA[themeColor || "purple"] ?? 1;
 
   return (
     <html
       lang="en"
       suppressHydrationWarning
-      style={{ ["--theme-hue" as any]: themeHue }}
+      style={{ ["--theme-hue" as any]: themeHue, ["--theme-chroma" as any]: themeChroma }}
     >
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
         <Providers themeColor={themeColor}>
