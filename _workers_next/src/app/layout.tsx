@@ -12,27 +12,32 @@ const inter = Inter({ subsets: ["latin"] });
 
 const DEFAULT_TITLE = "LDC Virtual Goods Shop";
 const DEFAULT_DESCRIPTION = "High-quality virtual goods, instant delivery";
+const THEME_HUES: Record<string, number> = {
+  purple: 270,
+  blue: 240,
+  cyan: 200,
+  green: 150,
+  orange: 45,
+  pink: 330,
+  red: 25,
+};
 
 export async function generateMetadata(): Promise<Metadata> {
   let shopName: string | null = null;
   let shopDescription: string | null = null;
-  let shopLogo: string | null = null;
   let noIndex = false;
   try {
-    const [name, desc, logo, noIndexSetting] = await Promise.all([
+    const [name, desc, noIndexSetting] = await Promise.all([
       getSetting("shop_name"),
       getSetting("shop_description"),
-      getSetting("shop_logo"),
       getSetting("noindex_enabled")
     ]);
     shopName = name;
     shopDescription = desc;
-    shopLogo = logo;
     noIndex = noIndexSetting === 'true';
   } catch {
     shopName = null;
     shopDescription = null;
-    shopLogo = null;
   }
 
   const metadata: Metadata = {
@@ -51,16 +56,12 @@ export async function generateMetadata(): Promise<Metadata> {
     other: {
       "mobile-web-app-capable": "yes",
     },
+    icons: {
+      icon: "/favicon.ico",
+      shortcut: "/favicon.ico",
+      apple: "/favicon.ico",
+    },
   };
-
-  // Add custom favicon if logo is set
-  if (shopLogo?.trim()) {
-    metadata.icons = {
-      icon: shopLogo.trim(),
-      shortcut: shopLogo.trim(),
-      apple: shopLogo.trim(),
-    };
-  }
 
   return metadata;
 }
@@ -76,9 +77,14 @@ export default async function RootLayout({
   } catch {
     themeColor = null;
   }
+  const themeHue = THEME_HUES[themeColor || "purple"] || 270;
 
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning
+      style={{ ["--theme-hue" as any]: themeHue }}
+    >
       <body className={cn("min-h-screen bg-background font-sans antialiased", inter.className)}>
         <Providers themeColor={themeColor}>
           <div className="relative flex min-h-screen flex-col">

@@ -8,10 +8,6 @@ const nextConfig: NextConfig = {
         source: '/authcallback',
         destination: '/api/auth/callback/linuxdo',
       },
-      {
-        source: '/favicon.ico',
-        destination: '/icon.svg',
-      },
     ]
   },
   eslint: {
